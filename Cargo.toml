@@ -3,8 +3,13 @@ name = "regex-stack-size"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+default = ["regex"]
+regex = []
+lite = []
+
 
 [dependencies]
 rlimit = "0.10.1"
-regex = { git = "https://github.com/Palkovsky/regex.git", branch = "make-perf-literal-nostd", default-features = false, features = ["perf", "unicode"] }
+regex = { version = "1.10.2", default-features = false, features = ["perf", "unicode"] }
+regex-lite = "0.1.5"
