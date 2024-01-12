@@ -1,6 +1,8 @@
 use rlimit::{getrlimit, setrlimit, Resource};
 use std::os::unix::process::CommandExt;
 
+use evalregex::eval_pattern;
+
 fn main() {
     // Get the command line arguments
     let args: Vec<String> = std::env::args().collect();
@@ -26,37 +28,5 @@ fn main() {
         let haystack = &args[2];
         let pattern = &args[3];
         eval_pattern(haystack, pattern); 
-    }
-}
-
-#[cfg(feature = "regex")]
-fn eval_pattern(haystack: &str, pattern: &str) {
-    let regex = match regex::Regex::new(&pattern) {
-        Ok(r) => r,
-        Err(e) => {
-            eprintln!("Error compiling regex pattern: {}", e);
-            std::process::exit(1);
-        }
-    };
-    if regex.is_match(&haystack) {
-        println!("The haystack matches the regex pattern.");
-    } else {
-        println!("The haystack does not match the regex pattern.");
-    }
-}
-
-#[cfg(feature = "lite")]
-fn eval_pattern(haystack: &str, pattern: &str) {
-    let regex = match regex_lite::Regex::new(&pattern) {
-        Ok(r) => r,
-        Err(e) => {
-            eprintln!("Error compiling regex pattern: {}", e);
-            std::process::exit(1);
-        }
-    };
-    if regex.is_match(&haystack) {
-        println!("The haystack matches the regex pattern.");
-    } else {
-        println!("The haystack does not match the regex pattern.");
     }
 }

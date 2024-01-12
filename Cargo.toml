@@ -3,13 +3,21 @@ name = "regex-stack-size"
 version = "0.1.0"
 edition = "2021"
 
-[features]
-default = ["regex"]
-regex = []
-lite = []
+[workspace]
+members = ["xtask"]
 
+[lib]
+name = "evalregex"
+path = "src/lib.rs"
+
+[[bin]]
+name = "regex-stack-size"
+path = "src/main.rs"
+
+[profile.release]
+debug = true
+lto = 'fat'
 
 [dependencies]
 rlimit = "0.10.1"
-regex = { version = "1.10.2", default-features = false, features = ["perf", "unicode"] }
-regex-lite = "0.1.5"
+regex = { version = "1.10.2", default-features = false, features = ["perf", "perf-dfa-full", "unicode"] }
